@@ -1,0 +1,57 @@
+package com.threads;
+
+class Multithread implements Runnable
+{
+//in running state
+@Override
+public void run() {
+	for(int i=0;i<5;i++)
+	{
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(Thread.currentThread().getName());
+	}
+	
+}
+}
+public class RunnableDemo {
+
+	public static void main(String[] args) {
+		Multithread obj=new Multithread();
+		Multithread obj1=new Multithread();
+		//obj.run();
+		Thread t=new Thread(obj); //new
+		
+		t.setName("fred");
+		//new state
+		t.start();
+		System.out.println("child thread :"+t.isAlive());
+	
+		try {
+			t.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}//tells currently running thread to halt or pause until the thread on which join is called finishes execution
+		
+		System.out.println("child thread :"+t.isAlive());
+		
+		// my  thread is in pool..from pool it will go to running state
+		for(int i=0;i<5;i++)
+		{
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("in main"+Thread.currentThread().getPriority());
+		}
+		
+	}
+
+}
