@@ -1,0 +1,60 @@
+package com.threads;
+
+class AccountBalance {
+protected int balance =50;
+ 
+public int getBalance()
+{
+return balance;
+}
+ 
+public void withdraw(int amount){
+balance =balance-amount;
+}
+  
+}
+public class AccountDanger implements Runnable {
+AccountBalance acct =new AccountBalance();
+public void run() {
+for(int i =0;i<5;i++){
+makeWithdrawl(10);
+if(acct.getBalance()<0){
+System.out.println("Account overdrawn");
+}
+}
+}
+ 
+public  synchronized void makeWithdrawl(int amt){
+int bal =acct.getBalance();
+if(bal >= amt){
+System.out.println(Thread.currentThread().getName()+"is going to withdrawl");
+try{
+Thread.sleep(500);
+}catch(InterruptedException e){
+e.getMessage();
+}
+acct.withdraw(amt);
+System.out.println(Thread.currentThread().getName()+"completes the withdrawl");
+}else{
+System.out.println("No enough money in account for withdrawl Mr./Mrs." +Thread.currentThread().getName()+acct.getBalance());
+ 
+} 
+}
+
+public static void main(String[] args) {
+AccountDanger danger =new AccountDanger();
+AccountDanger danger1 =new AccountDanger();
+Thread t1 =new Thread(danger);
+Thread t2 =new Thread(danger);
+Thread t3 =new Thread(danger);
+t1.setName("Fred");
+t2.setName("Lucy");
+t3.setName("Tom");
+   t3.start();
+t2.start();
+t1.start();
+Thread d1 =new Thread(danger);
+d1.start();
+}
+  
+}
