@@ -36,5 +36,10 @@ if(anyElement.isPresent())
 }
 
 	}
+System.out.println("sorting in ascending line 40 or 41");
+l.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
+l.stream().sorted().forEach(System.out::println);
 
+System.out.println("sorting in reverse");
+l.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
 }
