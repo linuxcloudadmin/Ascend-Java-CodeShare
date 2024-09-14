@@ -1,0 +1,33 @@
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	
+        ApplicationContext ctx=new ClassPathXmlApplicationContext("beans.xml");
+//   
+      JdbcTemplate template=ctx.getBean("jdbcTemplate1",JdbcTemplate.class);
+    	
+     String sql="insert into book values(?,?,?,?)";
+      int result=template.update(sql,5,"Spring","Thompson",600);
+//      String sql="update book set price=? where bookname=?";
+//      int result=template.update(sql,1000,"Spring");
+//      String sql="delete from book  where bookname=?";
+//      int result=template.update(sql,"Spring");
+   if(result>0)
+     {
+   	  System.out.println("inserted");
+     }
+      
+//      String sql2="select * from book ";
+//     List<Book> b=template.query(sql2,new RowMapperObject() );
+//     b.stream().forEach(System.out::println);
+      // String sql2="select * from book where bookid=5";
+    //  Book b=template.queryForObject(sql2,new RowMapperObject() );
+ // System.out.println(b);
+//  int i=template.queryForObject("select count(*) from book",Integer.class);
+//  System.out.println(i);
+   
+   
+       
+    }
+}
