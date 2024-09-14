@@ -1,0 +1,18 @@
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+
+public class RowMapperObject implements RowMapper<Book>{  
+    @Override  
+    public Book mapRow(ResultSet rs, int rownumber) throws SQLException {  
+        Book e=new Book();  
+       e.setBookid(rs.getInt(1)); 
+       e.setBookname(rs.getString(2));
+       e.setAuthor(rs.getString(3));
+       e.setPrice(rs.getFloat(4));
+        return e;  
+    }  
+    }
+
+
