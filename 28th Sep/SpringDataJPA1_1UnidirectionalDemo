@@ -1,0 +1,213 @@
+application.properties
+------------------------------------------
+server.port=9094
+#spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+#spring.datasource.url=jdbc:mysql://localhost:3306/resttestdb1
+#spring.datasource.username=root
+# spring.datasource.password=Shreemb2004r
+
+#spring.datasource.driverClassName=
+spring.datasource.url=jdbc:postgresql://localhost:5432/walmartempdb
+spring.datasource.username=postgres
+ spring.datasource.password=Shreemb2004r
+
+#Hibernate Configurations
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.generate-ddl=true
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+-------------------------------------------------------------------------
+Model Class
+------------------------------------------------------------------------
+package com.example.SpringDataJPADemo1.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Address {
+
+	@Id
+	Long aid;
+	String city;
+	String state;
+	public Long getAid() {
+		return aid;
+	}
+	public void setAid(Long aid) {
+		this.aid = aid;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	@Override
+	public String toString() {
+		return "Address [aid=" + aid + ", city=" + city + ", state=" + state + "]";
+	}
+	
+	
+}
+--------------------------------------------------------
+package com.example.SpringDataJPADemo1.entity;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Employee {
+
+	@Id
+	Long eid;
+	String name;
+	int salary;
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	Address address;
+	public Long getEid() {
+		return eid;
+	}
+	public void setEid(Long eid) {
+		this.eid = eid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getSalary() {
+		return salary;
+	}
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "Employee [eid=" + eid + ", name=" + name + ", salary=" + salary + ", address=" + address + "]";
+	}
+	
+	
+}
+----------------------------------------------------------------
+----------------------------------------------------------------Repository layer----------
+package com.example.SpringDataJPADemo1.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.SpringDataJPADemo1.entity.Address;
+
+
+
+@Repository
+public interface AddressRepository extends JpaRepository<Address,Long> {
+
+}
+------------------------------------------
+package com.example.SpringDataJPADemo1.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.SpringDataJPADemo1.entity.Employee;
+
+
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee,Long>{
+
+}
+----------------------------------------------------------------------------
+Controller layer
+----------------------------------------------------------------------------
+package com.example.SpringDataJPADemo1.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
+import com.example.SpringDataJPADemo1.entity.Employee;
+import com.example.SpringDataJPADemo1.repository.EmployeeRepository;
+
+
+
+
+@RestController
+public class EmployeeController {
+
+	@Autowired
+	private EmployeeRepository repo;
+	@GetMapping("/hi")
+	public String sayhello()
+	{
+		return "hello world-bhagya";
+	}
+	
+	@PostMapping("/saveemployee")
+	public ResponseEntity<String> addAllEmployees(@RequestBody Employee empdata)
+	{
+		repo.save(empdata);
+		return ResponseEntity.ok("emp details saved");
+	}
+	@PostMapping("/saveemployeesList")
+	public ResponseEntity<String> addAllEmployees(@RequestBody List<Employee> empdata)
+	{
+		repo.saveAll(empdata);
+		return ResponseEntity.ok("emp List details saved");
+	}
+	
+	@GetMapping("/getDetailsById/{eid}")
+	public Employee getEmployeeDetailsById(@PathVariable("eid") Long eid)
+	{
+		Employee e=null;
+		Optional<Employee> emp=repo.findById(eid);
+		if(emp.isPresent())
+		{
+			e=emp.get();
+			return e;
+		}
+		else
+			return e;
+	}
+		
+	}
+
+---------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
