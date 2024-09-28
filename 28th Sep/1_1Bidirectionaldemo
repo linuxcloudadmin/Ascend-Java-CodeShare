@@ -1,0 +1,99 @@
+package com.example.SpringDataJPADemo2.entity;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Employee {
+
+	@Id
+	Long eid;
+	String name;
+	int salary;
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	Address address;
+	public Long getEid() {
+		return eid;
+	}
+	public void setEid(Long eid) {
+		this.eid = eid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getSalary() {
+		return salary;
+	}
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "Employee [eid=" + eid + ", name=" + name + ", salary=" + salary + ", address=" + address + "]";
+	}
+	
+	
+}
+------------------------------
+package com.example.SpringDataJPADemo2.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Address {
+
+	@Id
+	Long aid;
+	String city;
+	String state;
+	@OneToOne(mappedBy="address")
+	Employee employee;
+	public Long getAid() {
+		return aid;
+	}
+	public void setAid(Long aid) {
+		this.aid = aid;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public Employee getEmployee() {
+		return employee;
+	}
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	@Override
+	public String toString() {
+		return "Address [aid=" + aid + ", city=" + city + ", state=" + state + ", employee=" + employee + "]";
+	}
+	
+	
+	
+	
+}
+
