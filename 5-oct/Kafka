@@ -1,0 +1,37 @@
+1.to start zoo keeper:
+
+C:\softwares\kafka\kafka> .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+
+2.to start kafka server
+
+C:\softwares\kafka\kafka>.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+3.to create topic
+
+C:\softwares\kafka\kafka>.\bin\windows\kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 --topic greetings
+
+to know number of topics created
+C:\softwares\kafka\kafka>.\bin\windows\kafka-topics.bat --create --bootstrap-server localhost:9092 --list
+
+to describe a particular topic
+C:\softwares\kafka\kafka>.\bin\windows\kafka-topics.bat --create --bootstrap-server localhost:9092 --describe --topic greetings
+
+4.to create publisher
+
+C:\softwares\kafka\kafka\bin\windows>.\kafka-console-producer.bat --broker-list localhost:9092 --topic greetings
+>hello shwetha!!GM
+>Good day
+>hi rucha
+>
+
+5.to create consumer
+
+C:\softwares\kafka\kafka\bin\windows>.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic greetings
+Good day
+hi rucha
+
+
+C:\softwares\kafka\kafka\bin\windows>.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --from-beginning --topic greetings
+
+
