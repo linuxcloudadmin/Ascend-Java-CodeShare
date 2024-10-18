@@ -1,0 +1,46 @@
+create database
+use db2
+2) to list all databases:
+show dbs or show databases
+3) to create collection
+db2.createCollection('movies') id,title,category,year,revenue,producer
+4) to see documents in collection
+db.movies.find() or db.movies.find().pretty()
+5)db.movies.insertOne({  })
+6)db.movies.insertMany([{},{},{})
+7)to count number of documents
+db.movies.find().count()
+8)to insert array
+db.movies.insertOne({_id:6,title:'abc',director:'xyz',category:['action','history'],time:120})
+9.to update
+--------------
+updateOne
+updateMany
+db.movies.updateOne({_id:6  },{$set:{ title:'aaa' }   })
+10.to insert a new field in all document
+db.movies.updateMany({},{$set:{language:'tamil'}})
+11.for title aaa ,change director to raj mouli
+db.movies.updateOne({title:'aaa'},{$set:{director:'raj mouli'}})
+12.to change both language and time for id 6
+ db.movies.updateOne({_id:6},{$set:{language:'kannada',time:140}})
+13.to update key itself in all documents -say we are changing key from title to name
+ db.movies.updateMany({},{$rename:{title:'name'}})
+14.to remove a field in a document
+db.movies.updateOne({{_id:2},{$unset:{time:''}})
+
+
+upsert=update+insert
+15.update if field exists otherwise inserts a new field if not found.
+db.movies.update({title:'sholay'},{$set:{language:'hindi}},{upsert:true})
+
+$gt->greater than
+$gte->greater than equal to
+&lt->lesser than
+&lte
+&ne->not equal to 
+16.find all movies release in year >2010
+db.movies.find({year:{$gt:2010}})
+
+
+17.find all movies release in year >2010 and less than 2022
+db.movies.find({year:{$gt:2010,$lte:2022}})
